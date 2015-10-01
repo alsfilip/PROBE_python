@@ -24,7 +24,7 @@ sess = 1
 run = 1
 
 #for testing purposes - goes through task automatically and quickly - just change key recording in trials() line 198
-test = True
+test = False
 #############
 # Task sets #
 #############
@@ -197,8 +197,8 @@ def trials(n,maps,tp,rInfo):
     stim = numSet[int(n)-1]
     stimDraw(stim) #Draw initial stim
     rtClock = core.Clock() #Clock to measure RTs
-    #keys = event.waitKeys(keyList=['j','k','l','semicolon','q','escape']) #Wait for a keypress
-    keys = random.choice([['j'],['k'],['l'],['semicolon']])#comment above line and ucomment this one for testing
+    keys = event.waitKeys(keyList=['j','k','l','semicolon','q','escape']) #Wait for a keypress
+    #keys = random.choice([['j'],['k'],['l'],['semicolon']])#comment above line and ucomment this one for testing
     RT = rtClock.getTime() #Get RT
     if keys[0] in ['q','escape']:
         core.quit()

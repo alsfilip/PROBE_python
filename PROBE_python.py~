@@ -197,17 +197,10 @@ def trials(n,maps,tp,rInfo):
     core.wait(isi)
     stim = numSet[int(n)-1]
     stimDraw(stim) #Draw initial stim
-    #rtClock = core.Clock() #Clock to measure RTs
-    RT = None
-    if test == False:
-    	rtClock = core.Clock()
-    	keys = event.waitKeys(keyList=['j','k','l','semicolon','q','escape']) #Wait for a keypress
-    	RT = rtClock.getTime()
-    elif test == True:
-    	rtClock = core.Clock()
-    	keys = random.choice([['j'],['k'],['l'],['semicolon']])#comment above line and ucomment this one for testing
-    	RT = rtClock.getTime()
-    #RT = rtClock.getTime() #Get RT
+    rtClock = core.Clock() #Clock to measure RTs
+    keys = event.waitKeys(keyList=['j','k','l','semicolon','q','escape']) #Wait for a keypress
+    #keys = random.choice([['j'],['k'],['l'],['semicolon']])#comment above line and ucomment this one for testing
+    RT = rtClock.getTime() #Get RT
     if keys[0] in ['q','escape']:
         core.quit()
     loc = keyDict[keys[0]] #Get which key has been presses

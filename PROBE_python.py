@@ -275,15 +275,6 @@ def breakScreen(r):
     else:
         key = event.waitKeys()
 
-def endScreen():
-    tt = visual.TextStim(win,text="You're done!  Please see the RA for further instructions.",height = 30)
-    tt.draw()
-    win.flip()
-    if test == True:
-        core.wait(2)
-    else:
-        key = event.waitKeys()
-
 #################
 # Trial Handler #
 #################
@@ -314,5 +305,4 @@ for run in range(6):
         runTrial += 1
         epTrial += 1
     breakScreen(run+1)
-endScreen()
 

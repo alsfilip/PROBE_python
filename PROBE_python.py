@@ -139,6 +139,7 @@ if test == True:
 # Buffer stimulus boxes, centre circle, and text stimulus (numbers)
 boxSize = 120
 textHeight = 100
+backRect = visual.Rect(win, width=boxSize*4+10,height = boxSize+10,fillColor = textCol)
 stimBox = {}
 numStim = {}
 posStart = -boxSize - (boxSize/2)
@@ -174,6 +175,7 @@ if test == True:
 
 # Function to draw stimuli
 def stimDraw(n, pos = None, col = False):
+    backRect.draw()
     if pos == None:
         for i in range(4):
             numStim[i].setText(n)

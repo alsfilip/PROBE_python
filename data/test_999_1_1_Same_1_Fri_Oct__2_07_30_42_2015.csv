@@ -1,0 +1,5 @@
+Category,SubID,SubNum,Strat,NumPres,Location,Trap,Run,TotalTrial,RunTrial,StratTrial,SubResp,KeyCode,Correct,Reward,RT
+test,999,1,3,2,3,0,1,1,1,1,3,l,1,1,0.874022006989
+test,999,1,3,3,4,0,1,2,2,2,2,k,0,0,1.0450398922
+test,999,1,3,3,4,1,1,3,3,3,3,l,0,1,0.417840003967
+test,999,1,3,1,1,0,1,4,4,4,4,semicolon,0,0,1.09756612778

@@ -15,7 +15,7 @@ import random
 # Participants information #
 ############################
 #for testing purposes - goes through task automatically and quickly - just change key recording in trials() line 198
-test = True
+test = False
 
 subNum = None
 subID = None
@@ -399,7 +399,6 @@ for run in range(6):
         trp = trap[trial]
         st = sts[trial]
         recInfo = [category, subID, subNum, age, sex, sesstype, sessOrder, currEp, st, tNum, cL, trp, runNum, totTrial, runTrial, epTrial]
-        #recInfo = [category, subID, subNum, st, tNum, cL, runNum, totTrial, runTrial, epTrial]
         trials(tNum,cL,trp,recInfo)
         totTrial += 1
         runTrial += 1

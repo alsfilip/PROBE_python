@@ -5,9 +5,8 @@ This is a python version of the PROBE task.
 It uses the exact same sequence, size, and colour scheme as the MATLAB version, but will be implemented in psychopy
 rather than Psych TOOLBOX. This is the version that will be used with undergrads and potentially WRAP participants.
 
-STILL TO DO - Check trial indexing and feedback mapping - instruction/break screens
 """
-from psychopy import core, visual, event
+from psychopy import core, visual, event, gui
 import os
 import time
 import random
@@ -15,16 +14,48 @@ import random
 ############################
 # Participants information #
 ############################
-
-#Test parameters
-subNum = 1
-subID = 999
-category = 'test'#"UG"
-sess = 1
-run = 1
-
 #for testing purposes - goes through task automatically and quickly - just change key recording in trials() line 198
 test = True
+
+subNum = None
+subID = None
+category = 'UG'
+sess = None
+sessOrder = None
+age = None
+sex = None
+run = None
+
+#Test parameters
+if test == True:
+    subNum = "1"
+    subID = "999"
+    category = 'test'#"UG"
+    sess = "s"
+    sessOrder = '1'
+    age = "99"
+    sex = "MF"
+    run = 1
+elif test == False:
+    infoBox = gui.Dlg(title = "Participant Information")
+    infoBox.addField('Subject Number: ')
+    infoBox.addField('Age: ')
+    infoBox.addField('Sex (m or f): ')
+    infoBox.addField('SONA ID: ')
+    infoBox.addField('Session (s or c): ')
+    infoBox.addField('Session Order (1 or 2): ')
+    infoBox.show()
+    if gui.OK:
+        pData = infoBox.data
+        subNum = str(pData[0])
+        age = str(pData[1])
+        sex = str(pData[2])
+        subID = str(pData[3])
+        sess = str(pData[4])
+        sessOrder = str(pData[5])
+    elif gui.CANCEL:
+        core.quit()
+
 #############
 # Task sets #
 #############
@@ -88,16 +119,16 @@ sStrat4 = ['2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2',
 sStrat5 = ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2']
 sStrat6 = ['3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']
 sStrats = [sStrat1,sStrat2,sStrat3,sStrat4,sStrat5,sStrat6]
-cStrat = eps
+cStrats = eps
 
 setLoc = None
 strat = None
 sesstype = None
-if sess == 1:
+if sess == 's':
     setLoc = sLocs
     strat = sStrats
     sesstype = "Same"
-elif sess == 2:
+elif sess == 'c':
     setLoc = cLocs
     strat = cStrats
     sesstype = "Change"
@@ -110,14 +141,21 @@ path = os.getcwd()
 date_time=time.asctime()
 dt=date_time.replace(' ','_')
 dt2 = dt.replace(':','_')
+
 # Initialize data file
 datafile = file(path+'//data//'+str(category)+'_'+str(subID)+'_'+str(subNum)+'_'+str(sess)+'_'+sesstype+'_'+str(run)+'_'+dt2+'.csv','wb')
-dataHeader = ["Category","SubID","SubNum","Strat","NumPres","Location","Trap", "Run", "TotalTrial","RunTrial","StratTrial","SubResp","KeyCode","Correct","Reward","RT"]
+dataHeader = ["Category", "SubID", "SubNum", "Age", "Sex", "SessType", "SessNum", "Episode", "Strat", "NumPres", "Location", "Trap", "Run", "TotalTrial", "RunTrial", "StratTrial", "SubResp", "KeyCode", "Correct", "Reward", "RT"]
 datafile.write(",".join(dataHeader)+'\n')
 datafile.flush()
+
+#Initialize questionnaire file
+qdat = file(path+'//data//Qdat_'+str(category)+'_'+str(subID)+'_'+str(subNum)+'_'+str(sess)+'_'+sesstype+'_'+str(run)+'_'+dt2+'.csv','wb')
+qdat.write(",".join(["Category","SubID","SubNum","Age","Sex","SessType","SessNum","Question","Answer"])+'\n')
+qdat.flush()
+
 # Function to record data
-def recData(cat,sid,snum,sts,npres,loca,ts,r,tottr,rtr,strtr,subres,keycd,cor,rw,rt):
-    dat = map(str,[cat,sid,snum,sts,npres,loca,ts,r,tottr,rtr,strtr,subres,keycd,cor,rw,rt])
+def recData(cat, sid, snum, ag, sx, sTy, sessNum, ep, sTrat, npres, loca, tps, r, tottr, rtr, strtr, subres, keycd, cor, rw, rt):
+    dat = map(str,[cat, sid, snum, ag, sx, sTy, sessNum, ep, sTrat, npres, loca, tps, r, tottr, rtr, strtr, subres, keycd, cor, rw, rt])
     datafile.write(",".join(dat)+'\n')
     datafile.flush()
 
@@ -154,15 +192,15 @@ keyDict = {'j':"1",'k':"2",'l':"3",'semicolon':"4"}
 
 #Sets
 numSet = None
-if subNum % 2 == 1:
-    if sess == 1:
+if int(subNum) % 2 == 1:
+    if sess == 's':
         numSet = [1,3,5]
-    elif sess == 2:
+    elif sess == 'c':
         numSet = [2,4,6]
-elif subNum % 2 == 0:
-    if sess == 1:
+elif int(subNum) % 2 == 0:
+    if sess == 's':
         numSet = [2,4,6]
-    elif sess == 2:
+    elif sess == 'c':
         numSet = [1,3,5]
 
 # Timing
@@ -201,6 +239,7 @@ def trials(n,maps,tp,rInfo):
     stimDraw(stim) #Draw initial stim
     #rtClock = core.Clock() #Clock to measure RTs
     RT = None
+    keys = None
     if test == False:
     	rtClock = core.Clock()
     	keys = event.waitKeys(keyList=['j','k','l','semicolon','q','escape']) #Wait for a keypress
@@ -212,7 +251,7 @@ def trials(n,maps,tp,rInfo):
     #RT = rtClock.getTime() #Get RT
     if keys[0] in ['q','escape']:
         core.quit()
-    loc = keyDict[keys[0]] #Get which key has been presses
+    loc = keyDict[keys[0]] #Get which key has been pressed
     resp = None #Participant response
     rCol = None #Feedback colour placeholder
     #Guides trap trials (Correct feedback for incorrect response, and vice versa)
@@ -246,13 +285,46 @@ def trials(n,maps,tp,rInfo):
     rtr = 1
     strtr = 1
     stimDraw(resp,pos=int(loc),col=rCol)
-    recData(rInfo[0],rInfo[1],rInfo[2],rInfo[3],rInfo[4],rInfo[5],tp,rInfo[6],rInfo[7],rInfo[8],rInfo[9],loc,keys[0],correct,fback,RT)
-    #recData(category,subID,subNum,strat,num,maps,trap,run,tottr,rtr,strtr,loc,keys[0],correct,fback,RT)
+    #Record data
+    recData(rInfo[0], rInfo[1], rInfo[2], rInfo[3], rInfo[4], rInfo[5], rInfo[6], rInfo[7], rInfo[8], rInfo[9], rInfo[10], rInfo[11], rInfo[12], rInfo[13], rInfo[14], rInfo[15], loc, keys[0], correct, fback, RT)
     core.wait(feedbackTime)
 
+#recInfo = [category, subID, subNum, age, sex, sesstype, sessOrder, currEp, st, tNum, cL, trp, runNum, totTrial, runTrial, epTrial]
+
+#["Category", "SubID", "SubNum", "Age", "Sex", "SessType", "SessNum", "Episode", "Strat", "NumPres", "Location", "Trap", "Run", "TotalTrial", "RunTrial", "StratTrial", "SubResp", "KeyCode", "Correct", "Reward", "RT"]
+
+#(cat, sid, snum, ag, sx, sTy, sessNum, ep, sTrat, npres, loca, tps, r, tottr, rtr, strtr, subres, keycd, cor, rw, rt)
 #################################
 # Instruction and break screens #
 #################################
+
+def instructions():
+    t = visual.TextStim(win,text="Please wait for the RA to start the experiment.",height=20,color=textCol,wrapWidth=700)
+    t.draw()
+    win.flip()
+    k1 = event.waitKeys()
+    if k1[0] == 'q':
+        core.quit()
+    stimDraw(" ")
+    k2 = event.waitKeys()
+    if k2[0] == 'q':
+        core.quit()
+    stimDraw("#")
+    k3 = event.waitKeys(keyList=['j','k','l','semicolon','q'])
+    loc = None
+    if k3[0] == 'q':
+        core.quit()
+    else:
+        loc = keyDict[k3[0]]
+    stimDraw("#",pos=int(loc),col=corrCol)
+    k4 = event.waitKeys(keyList=['j','k','l','semicolon','q'])
+    loc = None
+    if k4[0] == 'q':
+        core.quit()
+    else:
+        loc = keyDict[k4[0]]
+    stimDraw("X",pos=int(loc),col=errCol)
+    event.waitKeys()
 
 def startScreen():
     ts = visual.TextStim(win,text="Get ready...", height = 30)
@@ -266,7 +338,7 @@ def startScreen():
 def breakScreen(r):
     bt = "Block "+str(r)+" of 6 completed.\nPress any key to start next block."
     if r == 6:
-        bt = 'Block 6 of 6 completed.\nPlease see the RA for further instructions.'
+        bt = 'Block 6 of 6 completed.\nPress any key to move on to a quick questionnaire.'
     tt = visual.TextStim(win,text=bt,height=30)
     tt.draw()
     win.flip()
@@ -275,9 +347,36 @@ def breakScreen(r):
     else:
         key = event.waitKeys()
 
+def questionnaire():
+    txt = "We have two questions to ask you regarding the effort applied to this task. When answering the following questions, we would like to remind you that your responses will be kept anonymous and will in no way impact the credits you have earned from participation in this experiment.\n\nPlease press any key to start the questionnaire."
+    t = visual.TextStim(win,text=txt,height = 20,wrapWidth=750, color=textCol)
+    t.draw()
+    win.flip()
+    event.waitKeys()
+    txt2 = "Did you follow the task instructions?\n\nPress 'y' for yes or 'n' for no"
+    t.setText(txt2)
+    t.draw()
+    win.flip()
+    keys = event.waitKeys(keyList = ['y','n','q'])
+    qdat.write(",".join(map(str,[category, subID, subNum, age, sex, sesstype,sessOrder, "1",keys[0]]))+'\n')
+    qdat.flush()
+    txt3 = "Did you make most of your choices randomly without paying attention to the task?\n\nPress 'y' for yes or 'n' for no"
+    t.setText(txt3)
+    t.draw()
+    win.flip()
+    keys2 = event.waitKeys(keyList = ['y','n','q'])
+    qdat.write(",".join(map(str,[category, subID, subNum, age, sex, sesstype,sessOrder,"2",keys2[0]]))+'\n')
+    qdat.flush()
+    txt4 = "Thank you for your participation! Please see the RA for further instructions."
+    t.setText(txt4)
+    t.draw()
+    win.flip()
+    event.waitKeys()
+
 #################
 # Trial Handler #
 #################
+#instructions()
 startScreen()
 totTrial = 1
 for run in range(6):
@@ -299,10 +398,13 @@ for run in range(6):
         cL = corrLocs[trial]
         trp = trap[trial]
         st = sts[trial]
-        recInfo = [category, subID, subNum, st, tNum, cL,runNum,totTrial,runTrial,epTrial]
+        recInfo = [category, subID, subNum, age, sex, sesstype, sessOrder, currEp, st, tNum, cL, trp, runNum, totTrial, runTrial, epTrial]
+        #recInfo = [category, subID, subNum, st, tNum, cL, runNum, totTrial, runTrial, epTrial]
         trials(tNum,cL,trp,recInfo)
         totTrial += 1
         runTrial += 1
         epTrial += 1
     breakScreen(run+1)
-
+questionnaire()
+datafile.close()
+qdat.close()

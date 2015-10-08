@@ -1,7 +1,0 @@
-Category,SubID,SubNum,Strat,NumPres,Location,Trap,Run,TotalTrial,RunTrial,StratTrial,SubResp,KeyCode,Correct,Reward,RT
-test,999,1,3,2,3,0,1,1,1,1,1,j,0,0,7.48767495155
-test,999,1,3,3,4,0,1,2,2,2,2,k,0,0,0.479121923447
-test,999,1,3,3,4,1,1,3,3,3,3,l,0,1,0.0232141017914
-test,999,1,3,1,1,0,1,4,4,4,4,semicolon,0,0,0.0871210098267
-test,999,1,3,2,3,0,1,5,5,5,3,l,1,1,0.059229850769
-test,999,1,3,2,3,0,1,6,6,6,1,j,0,0,0.0310299396515

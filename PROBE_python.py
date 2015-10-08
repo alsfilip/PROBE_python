@@ -290,11 +290,6 @@ def trials(n,maps,tp,rInfo):
     recData(rInfo[0], rInfo[1], rInfo[2], rInfo[3], rInfo[4], rInfo[5], rInfo[6], rInfo[7], rInfo[8], rInfo[9], rInfo[10], rInfo[11], rInfo[12], rInfo[13], rInfo[14], rInfo[15], loc, keys[0], correct, fback, RT)
     core.wait(feedbackTime)
 
-#recInfo = [category, subID, subNum, age, sex, sesstype, sessOrder, currEp, st, tNum, cL, trp, runNum, totTrial, runTrial, epTrial]
-
-#["Category", "SubID", "SubNum", "Age", "Sex", "SessType", "SessNum", "Episode", "Strat", "NumPres", "Location", "Trap", "Run", "TotalTrial", "RunTrial", "StratTrial", "SubResp", "KeyCode", "Correct", "Reward", "RT"]
-
-#(cat, sid, snum, ag, sx, sTy, sessNum, ep, sTrat, npres, loca, tps, r, tottr, rtr, strtr, subres, keycd, cor, rw, rt)
 #################################
 # Instruction and break screens #
 #################################

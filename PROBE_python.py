@@ -171,7 +171,8 @@ textCol = (1,1,1)
 
 # Experimental window
 if test == False:
-	win = visual.Window(units = 'pix',color = backG, fullscr = True)
+    win = visual.Window(units = 'pix',color = backG, fullscr = True)
+    event.Mouse(visible=False)
 elif test == True:
     win = visual.Window(units = 'pix', color = backG)#make small window for testing purposes
 
